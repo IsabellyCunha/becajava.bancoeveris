@@ -28,9 +28,9 @@ public class OperacaoService {
 		Operacao operacao = new Operacao();
 		BaseResponse base = new BaseResponse();
 		base.StatusCode = 400;
-		List<Conta> lista =_contaRepository.findByHash(operacaoSpec.getHash());
+		Conta conta =_contaRepository.findByHash(operacaoSpec.getHash());
 		
-		if (lista.size() == 0) {
+		if (conta == null) {
 			base.StatusCode = 404;
 			base.Message = "Conta não encontrada!";
 			return base;
@@ -52,11 +52,11 @@ public class OperacaoService {
 		switch (operacaoSpec.getTipo()) {
 
         case "D":
-            operacao.setContaDestino(lista.get(0));
+            operacao.setContaDestino(conta);
             break;
 
         case "S":
-            operacao.setContaOrigem(lista.get(0));
+            operacao.setContaOrigem(conta);
             break;
         }		
 				
@@ -184,22 +184,22 @@ public class OperacaoService {
 	public BaseResponse transferencia(TransferenciaSpec transferenciaSpec) {
 		BaseResponse response = new BaseResponse();
 		Operacao operacao = new Operacao();
-		List<Conta> listaDestino =_contaRepository.findByHash(transferenciaSpec.getHashDestino());
-		List<Conta> listaOrigem =_contaRepository.findByHash(transferenciaSpec.getHashOrigem());
+		Conta listaDestino =_contaRepository.findByHash(transferenciaSpec.getHashDestino());
+		Conta listaOrigem =_contaRepository.findByHash(transferenciaSpec.getHashOrigem());
 		
-		if (listaDestino.size() == 0) {
+		if (listaDestino == null) {
 			response.StatusCode = 404;
 			response.Message = "Conta destino não encontrada!";
 			return response;
 		}
-		if (listaOrigem.size() == 0) {
+		if (listaOrigem == null) {
 			response.StatusCode = 404;
 			response.Message = "Conta origem não encontrada!";
 			return response;
 		}
 		
-		operacao.setContaDestino(listaDestino.get(0));
-		operacao.setContaOrigem(listaOrigem.get(0));
+		operacao.setContaDestino(listaDestino);
+		operacao.setContaOrigem(listaOrigem);
 		operacao.setTipo("T");
 		operacao.setValor(transferenciaSpec.getValor());
 		

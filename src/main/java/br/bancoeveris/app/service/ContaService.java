@@ -30,18 +30,18 @@ public class ContaService {
 		Conta conta = new Conta();
 		conta.StatusCode = 400;
 		
-		List<Conta> lista = _repository.findByHash(hash);
+		conta = _repository.findByHash(hash);
 
-		if (lista.size() == 0)
+		if (conta == null)
 			conta.Message = "Conta não encontrada!";
 		
 		
-		double saldo =  _operacaoService.saldo(lista.get(0).getId());
+		double saldo =  _operacaoService.saldo(conta.getId());
 		conta.setSaldo(saldo);
-		conta.setHash(lista.get(0).getHash());
-		conta.setAgencia(lista.get(0).getAgencia());
-		conta.setNumConta(lista.get(0).getNumConta());
-		conta.setCliente(lista.get(0).getCliente());
+		conta.setHash(conta.getHash());
+		conta.setAgencia(conta.getAgencia());
+		conta.setNumConta(conta.getNumConta());
+		conta.setCliente(conta.getCliente());
 		
 		conta.StatusCode = 200;
 		conta.Message = "Consulta de saldo ok!";
@@ -52,7 +52,18 @@ public class ContaService {
 		Conta conta = new Conta();
 		BaseResponse base = new BaseResponse();
 		base.StatusCode = 400;
-
+		boolean existe = true; 
+		
+		while(existe == true) {
+			String randomHash = conta.getHash();
+			Conta contaExiste = _repository.findByHash(randomHash);
+			
+			if (contaExiste != null)
+				existe = true;
+			else
+				existe = false;
+		}
+		
 		if (contaSpec.getHash() == "") {
 			base.Message = "O Hash do cliente não foi preenchido.";
 			return base;
@@ -65,6 +76,7 @@ public class ContaService {
 			base.Message = "A agencia do cliente não foi preenchido.";
 			return base;
 		}
+		
 
 		conta.setHash(contaSpec.getHash());
 		conta.setNumConta(contaSpec.getNumConta());
@@ -72,7 +84,6 @@ public class ContaService {
 		Cliente cliente = _clienteService.obterByCpf(contaSpec.getCliente().getCpf());
 
 		if (cliente.StatusCode == 404) {
-
 			_clienteService.inserir(contaSpec.getCliente());
 			cliente = _clienteService.obterByCpf(contaSpec.getCliente().getCpf());
 
@@ -97,6 +108,9 @@ public class ContaService {
 
 		response.Message = "Conta obtida com sucesso";
 		response.StatusCode = 200;
+		response.setAgencia(conta.get().getAgencia());
+		response.setNumConta(conta.get().getNumConta());
+		response.setHash(conta.get().getHash());
 		return response;
 	}
 

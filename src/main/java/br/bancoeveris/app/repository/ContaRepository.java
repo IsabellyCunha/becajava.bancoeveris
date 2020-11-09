@@ -9,7 +9,7 @@ import br.bancoeveris.app.model.Conta;
 
 @Repository
 public interface ContaRepository  extends JpaRepository<Conta,Long> {
-	
-	List<Conta> findByHash(String hash);
+	//Conta findByHash(Long id);
+	Conta findByHash(String hash);
 
 }

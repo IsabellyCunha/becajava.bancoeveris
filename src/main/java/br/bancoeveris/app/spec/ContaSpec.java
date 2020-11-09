@@ -1,16 +1,20 @@
 package br.bancoeveris.app.spec;
 
+import java.util.UUID;
+
 public class ContaSpec {
 
 	private String hash;
 	private String numConta;
 	private String agencia;
 	private ClienteSpec cliente;
+	
 	public String getHash() {
-		return hash;
+		hash = UUID.randomUUID().toString().substring(0, 16);
+		return hash.replace("-", "");
 	}
-	public void setHash(String hash) {
-		this.hash = hash;
+	public String setHash() {
+		return hash;
 	}
 	public String getNumConta() {
 		return numConta;
@@ -30,6 +34,7 @@ public class ContaSpec {
 	public void setCliente(ClienteSpec cliente) {
 		this.cliente = cliente;
 	}
+	
 	
 	
 }

@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.bancoeveris.app.repository.*;
-import br.bancoeveris.app.spec.ClienteList;
-import br.bancoeveris.app.spec.ClienteSpec;
+import br.bancoeveris.app.request.ClienteList;
+import br.bancoeveris.app.request.ClienteSpec;
 import br.bancoeveris.app.model.*;
 
 @Service

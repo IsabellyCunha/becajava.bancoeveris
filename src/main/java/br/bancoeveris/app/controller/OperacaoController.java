@@ -16,13 +16,13 @@ import org.springframework.web.bind.annotation.RestController;
 import br.bancoeveris.app.model.BaseResponse;
 import br.bancoeveris.app.model.Cliente;
 import br.bancoeveris.app.model.Operacao;
+import br.bancoeveris.app.request.ClienteList;
+import br.bancoeveris.app.request.ClienteSpec;
+import br.bancoeveris.app.request.OperacaoList;
+import br.bancoeveris.app.request.OperacaoSpec;
+import br.bancoeveris.app.request.TransferenciaSpec;
 import br.bancoeveris.app.service.ClienteService;
 import br.bancoeveris.app.service.OperacaoService;
-import br.bancoeveris.app.spec.ClienteList;
-import br.bancoeveris.app.spec.ClienteSpec;
-import br.bancoeveris.app.spec.OperacaoList;
-import br.bancoeveris.app.spec.OperacaoSpec;
-import br.bancoeveris.app.spec.TransferenciaSpec;
 
 @RestController
 @RequestMapping("/operacoes")

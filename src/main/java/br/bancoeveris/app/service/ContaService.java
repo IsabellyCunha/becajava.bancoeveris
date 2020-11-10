@@ -9,9 +9,8 @@ import br.bancoeveris.app.model.BaseResponse;
 import br.bancoeveris.app.model.Cliente;
 import br.bancoeveris.app.model.Conta;
 import br.bancoeveris.app.repository.ContaRepository;
-
-import br.bancoeveris.app.spec.ContaList;
-import br.bancoeveris.app.spec.ContaSpec;
+import br.bancoeveris.app.request.ContaList;
+import br.bancoeveris.app.request.ContaSpec;
 
 @Service
 public class ContaService {

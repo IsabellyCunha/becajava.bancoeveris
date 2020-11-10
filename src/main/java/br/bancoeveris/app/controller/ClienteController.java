@@ -6,9 +6,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import br.bancoeveris.app.model.*;
+import br.bancoeveris.app.request.ClienteList;
+import br.bancoeveris.app.request.ClienteSpec;
 import br.bancoeveris.app.service.ClienteService;
-import br.bancoeveris.app.spec.ClienteList;
-import br.bancoeveris.app.spec.ClienteSpec;
 
 @RestController
 @RequestMapping("/clientes")

@@ -1,4 +1,4 @@
-package br.bancoeveris.app.spec;
+package br.bancoeveris.app.request;
 
 import br.bancoeveris.app.model.BaseResponse;
 

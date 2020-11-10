@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.*;
 import br.bancoeveris.app.model.BaseResponse;
 import br.bancoeveris.app.model.Cliente;
 import br.bancoeveris.app.model.Conta;
+import br.bancoeveris.app.request.ClienteList;
+import br.bancoeveris.app.request.ClienteSpec;
+import br.bancoeveris.app.request.ContaList;
+import br.bancoeveris.app.request.ContaSpec;
 import br.bancoeveris.app.service.ClienteService;
 import br.bancoeveris.app.service.ContaService;
-import br.bancoeveris.app.spec.ClienteList;
-import br.bancoeveris.app.spec.ClienteSpec;
-import br.bancoeveris.app.spec.ContaList;
-import br.bancoeveris.app.spec.ContaSpec;
 
 @RestController
 @RequestMapping("/contas")

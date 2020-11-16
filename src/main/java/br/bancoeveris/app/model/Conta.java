@@ -24,10 +24,6 @@ public class Conta extends BaseResponse{
 	private String numConta;
 	private String agencia;
 	private String hash;
-	
-	@ManyToOne
-    @JoinColumn(name = "IdCliente")
-    private Cliente Cliente;
 
 	public Long getId() {
 		return id;
@@ -67,14 +63,6 @@ public class Conta extends BaseResponse{
 
 	public void setHash(String hash) {
 		this.hash = hash;
-	}
-
-	public Cliente getCliente() {
-		return Cliente;
-	}
-
-	public void setCliente(Cliente cliente) {
-		Cliente = cliente;
 	}
 	
 	

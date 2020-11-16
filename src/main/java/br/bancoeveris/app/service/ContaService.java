@@ -4,7 +4,6 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import br.bancoeveris.app.model.Cliente;
 import br.bancoeveris.app.model.Conta;
 import br.bancoeveris.app.repository.ContaRepository;
 import br.bancoeveris.app.request.ContaRequest;
@@ -15,12 +14,10 @@ public class ContaService {
 
 	final ContaRepository _repository;
 	final OperacaoService _operacaoService;
-	final ClienteService _clienteService;
 
-	public ContaService(ContaRepository repository, OperacaoService operacaoService, ClienteService clienteService) {
+	public ContaService(ContaRepository repository, OperacaoService operacaoService) {
 		_repository = repository;
 		_operacaoService = operacaoService;
-		_clienteService = clienteService;
 	}
 
 	public Conta saldo(String hash) {
@@ -38,7 +35,6 @@ public class ContaService {
 		conta.setHash(conta.getHash());
 		conta.setAgencia(conta.getAgencia());
 		conta.setNumConta(conta.getNumConta());
-		conta.setCliente(conta.getCliente());
 		
 		conta.setStatusCode(200);
 		conta.setMessage("Consulta de saldo ok!");
@@ -78,14 +74,6 @@ public class ContaService {
 		conta.setHash(contaRequest.getHash());
 		conta.setNumConta(contaRequest.getNumConta());
 		conta.setAgencia(contaRequest.getAgencia());
-		Cliente cliente = _clienteService.obterByCpf(contaRequest.getCliente().getCpf());
-
-		if (cliente.getStatusCode() == 404) {
-			_clienteService.inserir(contaRequest.getCliente());
-			cliente = _clienteService.obterByCpf(contaRequest.getCliente().getCpf());
-
-		}
-		conta.setCliente(cliente);
 
 		_repository.save(conta);
 		base.setStatusCode(201);
@@ -145,7 +133,6 @@ public class ContaService {
 		conta.setHash(contaRequest.getHash());
 		conta.setAgencia(contaRequest.getAgencia());
 		conta.setNumConta(contaRequest.getNumConta());
-		_clienteService.inserir(contaRequest.getCliente());
 
 		_repository.save(conta);
 		base.setStatusCode(200);

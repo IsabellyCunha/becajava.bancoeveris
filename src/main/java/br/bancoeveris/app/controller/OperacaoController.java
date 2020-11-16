@@ -11,12 +11,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.bancoeveris.app.request.OperacaoRequest;
-import br.bancoeveris.app.request.TransferenciaResquest;
+import br.bancoeveris.app.request.TransferenciaRequest;
 import br.bancoeveris.app.response.BaseResponse;
 import br.bancoeveris.app.service.OperacaoService;
 
 @RestController
-@RequestMapping("/operacoes")
+@RequestMapping("/operacao")
 public class OperacaoController extends BaseController {
 	
 	private final OperacaoService _service;
@@ -35,10 +35,10 @@ public class OperacaoController extends BaseController {
 			return ResponseEntity.status(errorBase.getStatusCode()).body(errorBase);
 		}
     }
-	@PostMapping (path = "/tranferencia")
-    public ResponseEntity transferencia(@RequestBody TransferenciaResquest transferenciaResquest) {
+	@PostMapping (path = "/transferencia")
+    public ResponseEntity transferencia(@RequestBody TransferenciaRequest transferencia) {
 		try {
-			BaseResponse response = _service.transferencia(transferenciaResquest);
+			BaseResponse response = _service.transferencia(transferencia);
 			return ResponseEntity.status(response.getStatusCode()).body(response);			
 		} catch (Exception e) {
 			return ResponseEntity.status(errorBase.getStatusCode()).body(errorBase);

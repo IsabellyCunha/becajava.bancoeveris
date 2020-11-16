@@ -9,7 +9,7 @@ import br.bancoeveris.app.model.Operacao;
 import br.bancoeveris.app.repository.ContaRepository;
 import br.bancoeveris.app.repository.OperacaoRepository;
 import br.bancoeveris.app.request.OperacaoRequest;
-import br.bancoeveris.app.request.TransferenciaResquest;
+import br.bancoeveris.app.request.TransferenciaRequest;
 import br.bancoeveris.app.response.BaseResponse;
 
 @Service
@@ -167,33 +167,53 @@ public class OperacaoService {
 //		return response;
 //	}
 
-	public BaseResponse transferencia(TransferenciaResquest transferenciaResquest) {
+	public BaseResponse transferencia(TransferenciaRequest request) {
 		BaseResponse response = new BaseResponse();
 		Operacao operacao = new Operacao();
-		Conta listaDestino = _contaRepository.findByHash(transferenciaResquest.getHashDestino());
-		Conta listaOrigem = _contaRepository.findByHash(transferenciaResquest.getHashOrigem());
-
-		if (listaDestino == null) {
-			response.setStatusCode(404);
-			response.setMessage("Conta destino não encontrada!");
+		
+		if (request.getHashOrigem() == "") {
+			response.setStatusCode(400);
+			response.setMessage("Conta origem não preenchida.");
 			return response;
 		}
-		if (listaOrigem == null) {
-			response.setStatusCode(404);
-			response.setMessage("Conta origem não encontrada!");
+		
+		if (request.getHashDestino() == "") {
+			response.setStatusCode(400);
+			response.setMessage("Conta destino não preenchida.");
 			return response;
 		}
-
-		operacao.setContaDestino(listaDestino);
-		operacao.setContaOrigem(listaOrigem);
+		
+		if (request.getValor() <= 0) {
+			response.setStatusCode(400);
+			response.setMessage("Valor para saque inválido.");
+			return response;
+		}
+		
+		Conta contaOrigem = _contaRepository.findByHash(request.getHashOrigem());
+		
+		if (contaOrigem == null) {
+			response.setStatusCode(400);
+			response.setMessage("Conta origem inexistente.");
+			return response;
+		}		
+		
+		Conta contaDestino = _contaRepository.findByHash(request.getHashDestino());
+		
+		if (contaDestino == null) {
+			response.setStatusCode(400);
+			response.setMessage("Conta destino inexistente.");
+			return response;
+		}		
+		
 		operacao.setTipo("T");
-		operacao.setValor(transferenciaResquest.getValor());
-
+		operacao.setValor(request.getValor());
+		operacao.setContaOrigem(contaOrigem);
+		operacao.setContaDestino(contaDestino);
 		_repository.save(operacao);
-		response.setStatusCode(200);
-		response.setMessage("Transferencia realizada com sucesso!");
-		return response;
-
+		
+		response.setStatusCode(201);
+		response.setMessage("Transferência realizada com sucesso.");
+		return response;		
 	}
 
 }

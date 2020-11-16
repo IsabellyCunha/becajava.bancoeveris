@@ -2,7 +2,7 @@ package br.bancoeveris.app.request;
 
 import java.util.List;
 
-import br.bancoeveris.app.model.BaseResponse;
+import br.bancoeveris.app.response.BaseResponse;
 import br.bancoeveris.app.model.Operacao;
 
 public class OperacaoList extends BaseResponse {

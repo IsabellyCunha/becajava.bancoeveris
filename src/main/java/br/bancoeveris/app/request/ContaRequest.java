@@ -2,12 +2,12 @@ package br.bancoeveris.app.request;
 
 import java.util.UUID;
 
-public class ContaSpec {
+public class ContaRequest {
 
 	private String hash;
 	private String numConta;
 	private String agencia;
-	private ClienteSpec cliente;
+	private ClienteRequest cliente;
 	
 	public String getHash() {
 		hash = UUID.randomUUID().toString().substring(0, 16);
@@ -28,10 +28,10 @@ public class ContaSpec {
 	public void setAgencia(String agencia) {
 		this.agencia = agencia;
 	}
-	public ClienteSpec getCliente() {
+	public ClienteRequest getCliente() {
 		return cliente;
 	}
-	public void setCliente(ClienteSpec cliente) {
+	public void setCliente(ClienteRequest cliente) {
 		this.cliente = cliente;
 	}
 	

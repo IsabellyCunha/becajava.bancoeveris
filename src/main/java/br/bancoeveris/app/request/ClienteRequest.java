@@ -1,6 +1,6 @@
 package br.bancoeveris.app.request;
 
-public class ClienteSpec {
+public class ClienteRequest {
 	
 	private String Nome;
 	private String Telefone;

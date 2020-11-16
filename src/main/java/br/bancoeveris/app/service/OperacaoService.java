@@ -1,16 +1,16 @@
 package br.bancoeveris.app.service;
 
 import java.util.List;
+
 import org.springframework.stereotype.Service;
 
-import br.bancoeveris.app.model.BaseResponse;
 import br.bancoeveris.app.model.Conta;
 import br.bancoeveris.app.model.Operacao;
 import br.bancoeveris.app.repository.ContaRepository;
 import br.bancoeveris.app.repository.OperacaoRepository;
-import br.bancoeveris.app.request.OperacaoList;
-import br.bancoeveris.app.request.OperacaoSpec;
-import br.bancoeveris.app.request.TransferenciaSpec;
+import br.bancoeveris.app.request.OperacaoRequest;
+import br.bancoeveris.app.request.TransferenciaResquest;
+import br.bancoeveris.app.response.BaseResponse;
 
 @Service
 public class OperacaoService {
@@ -23,32 +23,32 @@ public class OperacaoService {
 		_contaRepository = contaRepository;
 	}
 
-	public BaseResponse inserir(OperacaoSpec operacaoSpec) {
+	public BaseResponse inserir(OperacaoRequest operacaoRequest) {
 		Operacao operacao = new Operacao();
 		BaseResponse base = new BaseResponse();
-		base.StatusCode = 400;
-		Conta conta = _contaRepository.findByHash(operacaoSpec.getHash());
+		base.setStatusCode(400);
+		Conta conta = _contaRepository.findByHash(operacaoRequest.getHash());
 
 		if (conta == null) {
-			base.StatusCode = 404;
-			base.Message = "Conta não encontrada!";
+			base.setStatusCode(404);
+			base.setMessage("Conta não encontrada!");
 			return base;
 		}
 
-		if (operacaoSpec.getTipo() == "") {
-			base.Message = "O Tipo da operação não foi preenchido.";
+		if (operacaoRequest.getTipo() == "") {
+			base.setMessage("O Tipo da operação não foi preenchido.");
 			return base;
 		}
 
-		if (operacaoSpec.getValor() == 0) {
-			base.Message = "O valor da operação não foi preenchido.";
+		if (operacaoRequest.getValor() == 0) {
+			base.setMessage("O valor da operação não foi preenchido.");
 			return base;
 		}
 
-		operacao.setTipo(operacaoSpec.getTipo());
-		operacao.setValor(operacaoSpec.getValor());
+		operacao.setTipo(operacaoRequest.getTipo());
+		operacao.setValor(operacaoRequest.getValor());
 
-		switch (operacaoSpec.getTipo()) {
+		switch (operacaoRequest.getTipo()) {
 
 		case "D":
 			operacao.setContaDestino(conta);
@@ -60,8 +60,8 @@ public class OperacaoService {
 		}
 
 		_repository.save(operacao);
-		base.StatusCode = 201;
-		base.Message = "Operacão inserida com sucesso.";
+		base.setStatusCode(201);
+		base.setMessage("Operacão inserida com sucesso.");
 		return base;
 	}
 
@@ -129,28 +129,28 @@ public class OperacaoService {
 //		return response;
 //	}
 
-	public BaseResponse atualizar(Long id, OperacaoSpec operacaoSpec) {
+	public BaseResponse atualizar(Long id, OperacaoRequest operacaoRequest) {
 		Operacao operacao = new Operacao();
 		BaseResponse base = new BaseResponse();
-		base.StatusCode = 400;
+		base.setStatusCode(400);
 
-		if (operacaoSpec.getTipo() == "") {
-			base.Message = "O tipo da Operação não foi preenchido.";
+		if (operacaoRequest.getTipo() == "") {
+			base.setMessage("O tipo da Operação não foi preenchido.");
 			return base;
 		}
 
-		if (operacaoSpec.getValor() == 0) {
-			base.Message = "O Valor da operação não foi preenchido.";
+		if (operacaoRequest.getValor() == 0) {
+			base.setMessage("O Valor da operação não foi preenchido.");
 			return base;
 		}
 
 		operacao.setId(id);
-		operacao.setTipo(operacaoSpec.getTipo());
-		operacao.setValor(operacaoSpec.getValor());
+		operacao.setTipo(operacaoRequest.getTipo());
+		operacao.setValor(operacaoRequest.getValor());
 
 		_repository.save(operacao);
-		base.StatusCode = 200;
-		base.Message = "Operacao atualizada com sucesso.";
+		base.setStatusCode(200);
+		base.setMessage("Operacao atualizada com sucesso.");
 		return base;
 	}
 
@@ -167,31 +167,31 @@ public class OperacaoService {
 //		return response;
 //	}
 
-	public BaseResponse transferencia(TransferenciaSpec transferenciaSpec) {
+	public BaseResponse transferencia(TransferenciaResquest transferenciaResquest) {
 		BaseResponse response = new BaseResponse();
 		Operacao operacao = new Operacao();
-		Conta listaDestino = _contaRepository.findByHash(transferenciaSpec.getHashDestino());
-		Conta listaOrigem = _contaRepository.findByHash(transferenciaSpec.getHashOrigem());
+		Conta listaDestino = _contaRepository.findByHash(transferenciaResquest.getHashDestino());
+		Conta listaOrigem = _contaRepository.findByHash(transferenciaResquest.getHashOrigem());
 
 		if (listaDestino == null) {
-			response.StatusCode = 404;
-			response.Message = "Conta destino não encontrada!";
+			response.setStatusCode(404);
+			response.setMessage("Conta destino não encontrada!");
 			return response;
 		}
 		if (listaOrigem == null) {
-			response.StatusCode = 404;
-			response.Message = "Conta origem não encontrada!";
+			response.setStatusCode(404);
+			response.setMessage("Conta origem não encontrada!");
 			return response;
 		}
 
 		operacao.setContaDestino(listaDestino);
 		operacao.setContaOrigem(listaOrigem);
 		operacao.setTipo("T");
-		operacao.setValor(transferenciaSpec.getValor());
+		operacao.setValor(transferenciaResquest.getValor());
 
 		_repository.save(operacao);
-		response.StatusCode = 200;
-		response.Message = "Transferencia realizada com sucesso!";
+		response.setStatusCode(200);
+		response.setMessage("Transferencia realizada com sucesso!");
 		return response;
 
 	}

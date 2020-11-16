@@ -1,6 +1,6 @@
 package br.bancoeveris.app.request;
 
-import br.bancoeveris.app.model.BaseResponse;
+import br.bancoeveris.app.response.BaseResponse;
 
 import java.util.List;
 

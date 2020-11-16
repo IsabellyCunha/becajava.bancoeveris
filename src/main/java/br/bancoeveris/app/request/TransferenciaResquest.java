@@ -1,6 +1,6 @@
 package br.bancoeveris.app.request;
 
-public class TransferenciaSpec {
+public class TransferenciaResquest {
 	private String hashOrigem;
 	private String hashDestino;
 	private double valor;

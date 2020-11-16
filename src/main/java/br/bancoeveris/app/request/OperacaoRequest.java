@@ -1,6 +1,6 @@
 package br.bancoeveris.app.request;
 
-public class OperacaoSpec {
+public class OperacaoRequest {
 	
 	private String tipo;
 	private double valor;
